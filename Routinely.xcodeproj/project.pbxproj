@@ -55,6 +55,7 @@
 				91FB30012CFE0F0500ABCD04 /* Sources */,
 				91FB30022CFE0F0500ABCD04 /* Frameworks */,
 				91FB30032CFE0F0500ABCD04 /* Resources */,
+				91FB30162CFE0F9B00ABCD04 /* Linting */,
 			);
 			buildRules = (
 			);
@@ -113,6 +114,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		91FB30162CFE0F9B00ABCD04 /* Linting */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Linting;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]\nthen\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		91FB30012CFE0F0500ABCD04 /* Sources */ = {
@@ -254,6 +277,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Routinely/Preview Content\"";
 				DEVELOPMENT_TEAM = 8DJHS9AWYU;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -283,6 +307,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Routinely/Preview Content\"";
 				DEVELOPMENT_TEAM = 8DJHS9AWYU;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
