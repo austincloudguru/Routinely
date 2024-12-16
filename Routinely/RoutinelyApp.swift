@@ -4,7 +4,7 @@
 //
 //  Created by Mark Honomichl on 12/2/24.
 //
-
+import SwiftData
 import SwiftUI
 
 @main
@@ -13,5 +13,6 @@ struct RoutinelyApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Routine.self)
     }
 }

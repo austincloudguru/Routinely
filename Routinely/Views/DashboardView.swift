@@ -4,15 +4,44 @@
 //
 //  Created by Mark Honomichl on 12/2/24.
 //
-
+import SwiftData
 import SwiftUI
 
 struct DashboardView: View {
+    @Environment(\.modelContext) var modelContext: ModelContext
+
+    var currentDate = Calendar.current.dateComponents([.hour, .minute], from: Date())
+    var currentTime: String {
+        String(format: "%02d:%02d", currentDate.hour ?? 0, currentDate.minute ?? 0)
+    }
+    var testTime = "12:00"
+
+    @Query(filter: #Predicate<Task> { task in
+        task.routine?.startTime ?? "00:00" <= "18:00"
+    }) var tasks: [Task]
+
+    // sort: [SortDescriptor(\Routine.startTime, comparator: .localizedStandard)]
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List(tasks) { task in
+                HStack {
+                    Text(task.name)
+                    Spacer()
+                    Text(task.routine?.name ?? "No routine")
+                }
+            }
+            .navigationTitle("Today")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(
+                .green,
+                for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+        }
     }
 }
 
 #Preview {
     DashboardView()
+        .modelContainer(DataController.previewContainer)
 }
