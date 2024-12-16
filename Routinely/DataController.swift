@@ -15,28 +15,28 @@ class DataController {
             let config = ModelConfiguration(isStoredInMemoryOnly: true)
             let container = try ModelContainer(for: Routine.self, configurations: config)
 
-            let morningRoutine = Routine(name: "Morning",
+            let morningRoutine = Routine(routineName: "Morning",
                                          startTime: "06:00",
-                                         tasks: [Task(name: "Brush Teeth"),
-                                                 Task(name: "Take Pills")])
+                                         habits: [Habit(habitName: "Brush Teeth"),
+                                                 Habit(habitName: "Take Pills")])
             container.mainContext.insert(morningRoutine)
 
-            let startupRoutine = Routine(name: "Startup",
+            let startupRoutine = Routine(routineName: "Startup",
                                          startTime: "09:00",
-                                         tasks: [Task(name: "Check Email"),
-                                                 Task(name: "Review Tasks")])
+                                         habits: [Habit(habitName: "Check Email"),
+                                                 Habit(habitName: "Review Tasks")])
             container.mainContext.insert(startupRoutine)
 
-            let shutdownRoutine = Routine(name: "Shutdown",
+            let shutdownRoutine = Routine(routineName: "Shutdown",
                                          startTime: "15:00",
-                                         tasks: [Task(name: "Check Email"),
-                                                 Task(name: "Review Tasks")])
+                                         habits: [Habit(habitName: "Check Email"),
+                                                 Habit(habitName: "Review Tasks")])
             container.mainContext.insert(shutdownRoutine)
 
-            let eveningRoutine = Routine(name: "Evening",
+            let eveningRoutine = Routine(routineName: "Evening",
                                          startTime: "21:00",
-                                         tasks: [Task(name: "Brush Teeth"),
-                                                 Task(name: "Take Pills")])
+                                         habits: [Habit(habitName: "Brush Teeth"),
+                                                 Habit(habitName: "Take Pills")])
             container.mainContext.insert(eveningRoutine)
 
 //            for myRoutine in myRoutines {

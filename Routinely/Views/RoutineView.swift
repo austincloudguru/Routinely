@@ -15,8 +15,8 @@ struct RoutineView: View {
         NavigationStack {
             List {
                 ForEach(routines) { routine in
-                    NavigationLink(routine.name) {
-                        RoutineEditorView(routine: routine)
+                    NavigationLink(routine.routineName) {
+                        RoutineEditorView(routine: routine).navigationBarBackButtonHidden(true)
                     }
                 }
             }
@@ -37,6 +37,7 @@ struct ItemsToolbar: ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
             } label: {
+                // NavigationLink(destination: RoutineEditorView(routine: nil)) {
                 NavigationLink(destination: RoutineEditorView(routine: nil)) {
                     Image(systemName: "plus")
                 }

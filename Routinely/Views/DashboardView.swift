@@ -16,9 +16,9 @@ struct DashboardView: View {
     }
     var testTime = "12:00"
 
-    @Query(filter: #Predicate<Task> { task in
+    @Query(filter: #Predicate<Habit> { task in
         task.routine?.startTime ?? "00:00" <= "18:00"
-    }) var tasks: [Task]
+    }) var tasks: [Habit]
 
     // sort: [SortDescriptor(\Routine.startTime, comparator: .localizedStandard)]
 
@@ -26,9 +26,9 @@ struct DashboardView: View {
         NavigationStack {
             List(tasks) { task in
                 HStack {
-                    Text(task.name)
+                    Text(task.habitName)
                     Spacer()
-                    Text(task.routine?.name ?? "No routine")
+                    Text(task.routine?.routineName ?? "No routine")
                 }
             }
             .navigationTitle("Today")

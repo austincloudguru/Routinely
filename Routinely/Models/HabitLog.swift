@@ -9,16 +9,16 @@ import Foundation
 import SwiftData
 
 @Model
-class TaskLog {
+class HabitLog {
     var id: UUID
     var logDate: Date
     var isCompleted: Bool
-    var task: Task
+    var habit: Habit
 
-    init(id: UUID, logDate: Date, isCompleted: Bool, task: Task) {
+    init(id: UUID, logDate: Date, isCompleted: Bool, task: Habit) {
         self.id = id
         self.logDate = logDate
         self.isCompleted = isCompleted
-        self.task = task
+        self.habit = task
     }
 }
