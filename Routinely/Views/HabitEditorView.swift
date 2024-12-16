@@ -13,6 +13,7 @@ struct HabitEditorView: View {
     @Environment(\.dismiss) private var dismiss
 
     let habit: Habit?
+    var routine: Routine?
 
     @State private var habitName: String = ""
     @State private var habitDescription: String = ""
@@ -30,6 +31,11 @@ struct HabitEditorView: View {
                 Section(header: Text("Description")) {
                     TextField("", text: $habitDescription, axis: .vertical)
                         .lineLimit(5...10)
+                }
+                if let routine {
+                    Text("Routine: \(routine.routineName)")
+                } else {
+                    Text("Routine: \(habit?.routine?.routineName ?? "")")
                 }
             }
             .toolbar {
@@ -64,13 +70,27 @@ struct HabitEditorView: View {
             habit.habitName = habitName
             habit.habitDescription = habitDescription
         } else {
-            let newHabit = Habit(habitName: habitName, habitDescription: habitDescription)
+            let newHabit = Habit(habitName: habitName, habitDescription: habitDescription, routine: routine)
             modelContext.insert(newHabit)
         }
     }
 }
 
-#Preview {
+#Preview("New Habit") {
     HabitEditorView(habit: nil)
         .modelContainer(DataController.previewContainer)
+}
+
+#Preview("Edit Habit") {
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: Routine.self, configurations: config)
+        let habit = Habit(habitName: "Brush Teeth",
+                          habitDescription: "Good Oral Hygene",
+                          routine: Routine(routineName: "Morning Routine", startTime: "00:00"))
+        return HabitEditorView(habit: habit)
+            .modelContainer(container)
+    } catch {
+        return Text("Failed to create container: \(error.localizedDescription)")
+    }
 }

@@ -28,12 +28,14 @@ struct RoutineEditorView: View {
         NavigationStack {
             Form {
                 TextField("Routine Name", text: $routineName)
-                Section(header: ButtonView()) {
-                    ForEach(routine?.habits ?? []) { habit in
+                if let routine {
+                Section(header: ButtonView(routine: routine)) {
+                    ForEach(routine.habits ?? []) { habit in
                         NavigationLink(habit.habitName) {
-                            HabitEditorView(habit: habit)
+                            HabitEditorView(habit: habit).navigationBarBackButtonHidden(true)
                         }
                     }
+                }
                 }
             }
             .toolbar {
@@ -44,12 +46,12 @@ struct RoutineEditorView: View {
                     Button("Save") {
                         withAnimation {
                             save()
-                            dismiss()
+                            // dismiss()
                         }
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", role: .cancel) {
+                    Button("Close", role: .cancel) {
                         dismiss()
                     }
                 }
@@ -73,13 +75,16 @@ struct RoutineEditorView: View {
 }
 
 struct ButtonView: View {
+    let routine: Routine
     var body: some View {
         HStack {
             Text("Habits")
             Spacer()
             Button {
             } label: {
-                NavigationLink(destination: HabitEditorView(habit: nil).navigationBarBackButtonHidden(true)) {
+                NavigationLink(destination: HabitEditorView(habit: nil,
+                                                            routine: routine)
+                    .navigationBarBackButtonHidden(true)) {
                     Image(systemName: "plus")
                 }
 
