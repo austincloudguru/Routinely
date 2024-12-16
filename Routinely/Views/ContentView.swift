@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext: ModelContext
-    @Query(sort: [SortDescriptor(\Routine.name, comparator: .localizedStandard)]) var routines: [Routine]
+    @Query(sort: [SortDescriptor(\Routine.routineName, comparator: .localizedStandard)]) var routines: [Routine]
 
     var body: some View {
         TabView {

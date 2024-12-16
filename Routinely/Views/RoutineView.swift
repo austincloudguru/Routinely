@@ -15,7 +15,7 @@ struct RoutineView: View {
         NavigationStack {
             List {
                 ForEach(routines) { routine in
-                    NavigationLink(routine.name) {
+                    NavigationLink(routine.routineName) {
                         RoutineEditorView(routine: routine)
                     }
                 }

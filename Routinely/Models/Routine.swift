@@ -26,24 +26,24 @@ enum Frequency: String, Codable {
 @Model
 class Routine {
     var id: UUID
-    var name: String
-    var desc: String?
+    var routineName: String
+    var routineDescription: String?
     var startTime: String
     var frequency: Frequency
-    var tasks: [Task]?
+    var habits: [Habit]?
 
     init(id: UUID = UUID(),
-         name: String,
-         desc: String? = nil,
+         routineName: String,
+         routineDescription: String? = nil,
          startTime: String = "00:00",
          frequency: Frequency = .daily,
-         tasks: [Task]? = nil
+         habits: [Habit]? = nil
     ) {
         self.id = id
-        self.name = name
-        self.desc = desc
+        self.routineName = routineName
+        self.routineDescription = routineDescription
         self.startTime = startTime
         self.frequency = frequency
-        self.tasks = tasks
+        self.habits = habits
     }
 }

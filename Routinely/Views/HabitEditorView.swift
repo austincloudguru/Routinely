@@ -8,27 +8,27 @@
 import SwiftData
 import SwiftUI
 
-struct TaskEditorView: View {
+struct HabitEditorView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
-    let task: Task?
+    let habit: Habit?
 
-    @State private var name: String = ""
-    @State private var taskDescription: String = ""
+    @State private var habitName: String = ""
+    @State private var habitDescription: String = ""
 
     private var editorTitle: String {
-        task == nil ? "New Habit" : "Edit Habit"
+        habit == nil ? "New Habit" : "Edit Habit"
     }
 
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Habit Name")) {
-                    TextField("", text: $name)
+                    TextField("", text: $habitName)
                 }
                 Section(header: Text("Description")) {
-                    TextField("", text: $taskDescription, axis: .vertical)
+                    TextField("", text: $habitDescription, axis: .vertical)
                         .lineLimit(5...10)
                 }
             }
@@ -53,24 +53,24 @@ struct TaskEditorView: View {
         }
 
         .onAppear {
-            if let task = task {
-                name = task.name
-                taskDescription = task.taskDescription ?? ""
+            if let habit = habit {
+                habitName = habit.habitName
+                habitDescription = habit.habitDescription ?? ""
             }
         }
     }
     func save() {
-        if let habit = task {
-            habit.name = name
-            habit.taskDescription = taskDescription
+        if let habit = habit {
+            habit.habitName = habitName
+            habit.habitDescription = habitDescription
         } else {
-            let newHabit = Task(name: name, taskDescription: taskDescription)
+            let newHabit = Habit(habitName: habitName, habitDescription: habitDescription)
             modelContext.insert(newHabit)
         }
     }
 }
 
 #Preview {
-    TaskEditorView(task: nil)
+    HabitEditorView(habit: nil)
         .modelContainer(DataController.previewContainer)
 }

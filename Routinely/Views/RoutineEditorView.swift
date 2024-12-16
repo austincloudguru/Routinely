@@ -14,23 +14,24 @@ struct RoutineEditorView: View {
 
     let routine: Routine?
 
-    @State private var name: String = ""
+    @State private var routineName: String = ""
 
-    @Query(filter: #Predicate<Task> { task in
+    @Query(filter: #Predicate<Habit> { task in
         task.routine?.startTime ?? "00:00" <= "18:00"
-    }) var tasks: [Task]
+    }) var tasks: [Habit]
 
     private var editorTitle: String {
         routine == nil ? "New Routine" : "Edit Routine"
     }
+
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Routine Name", text: $name)
+                TextField("Routine Name", text: $routineName)
                 Section(header: ButtonView()) {
-                    ForEach(routine?.tasks ?? []) { task in
-                        NavigationLink(task.name) {
-                            TaskEditorView(task: task)
+                    ForEach(routine?.habits ?? []) { habit in
+                        NavigationLink(habit.habitName) {
+                            HabitEditorView(habit: habit)
                         }
                     }
                 }
@@ -55,7 +56,7 @@ struct RoutineEditorView: View {
             }
             .onAppear {
                 if let routine = routine {
-                    name = routine.name
+                    routineName = routine.routineName
                 }
             }
         }
@@ -63,10 +64,10 @@ struct RoutineEditorView: View {
 
     func save() {
         if let routine = routine {
-            routine.name = name
+            routine.routineName = routineName
         } else {
-            let newTimer = Routine(name: name)
-            modelContext.insert(newTimer)
+            let newRoutine = Routine(routineName: routineName)
+            modelContext.insert(newRoutine)
         }
     }
 }
@@ -74,12 +75,11 @@ struct RoutineEditorView: View {
 struct ButtonView: View {
     var body: some View {
         HStack {
-            Text("Tasks")
+            Text("Habits")
             Spacer()
             Button {
             } label: {
-                // NavigationLink(destination: TaskEditorView(task: nil).navigationBarBackButtonHidden(true)) {
-                NavigationLink(destination: TaskEditorView(task: nil).navigationBarBackButtonHidden(true)) {
+                NavigationLink(destination: HabitEditorView(habit: nil).navigationBarBackButtonHidden(true)) {
                     Image(systemName: "plus")
                 }
 
@@ -90,4 +90,19 @@ struct ButtonView: View {
 
 #Preview("Add Routine") {
     RoutineEditorView(routine: nil)
+}
+
+#Preview("Edit Routine") {
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: Routine.self, configurations: config)
+        let routine = Routine(routineName: "Clean",
+                              startTime: "00:00",
+                              habits: [Habit(habitName: "Brush Teeth"),
+                                       Habit(habitName: "Take Pills")])
+        return RoutineEditorView(routine: routine)
+            .modelContainer(container)
+    } catch {
+        return Text("Failed to create container: \(error.localizedDescription)")
+    }
 }
